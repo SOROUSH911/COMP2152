@@ -1,0 +1,84 @@
+import nbformat as nbf
+
+nb = nbf.v4.new_notebook()
+
+# Create cells
+cells = [
+    nbf.v4.new_markdown_cell('''# Assignment 1
+    
+Author: <YOUR REAL FIRST AND LAST NAME>
+Assignment: #1'''),
+    
+    nbf.v4.new_code_cell('''# String data type
+gym_member = "Alex Alliton"
+# Float data type
+preferred_weight_kg = 20.5
+# Integer data type
+highest_reps = 25
+# Boolean data type
+membership_active = True'''),
+    
+    nbf.v4.new_code_cell('''# Dictionary containing friend names (strings) mapped to workout minutes (tuples of 3 integers)
+workout_stats = {
+    "Alex": (30, 45, 20),    # yoga, running, weightlifting
+    "Jamie": (45, 30, 35),
+    "Taylor": (25, 50, 40)
+}'''),
+    
+    nbf.v4.new_code_cell('''# Calculate and add total workout minutes for each friend
+for friend in list(workout_stats.keys()):  # Create a list of keys to avoid dictionary size change during iteration
+    total_minutes = sum(workout_stats[friend])
+    workout_stats[f"{friend}_Total"] = total_minutes
+
+print("Updated workout_stats dictionary:")
+for key, value in workout_stats.items():
+    print(f"{key}: {value}")'''),
+    
+    nbf.v4.new_code_cell('''# List of lists containing workout minutes (2D list/nested list data type)
+workout_list = [list(workout_stats[friend]) for friend in ["Alex", "Jamie", "Taylor"]]
+
+print("Complete workout list:")
+print(workout_list)'''),
+    
+    nbf.v4.new_code_cell('''# Slice workout_list to get yoga and running minutes for all friends
+print("Yoga and running minutes for all friends:")
+print([row[0:2] for row in workout_list])
+
+# Slice workout_list to get weightlifting minutes for last two friends
+print("\nWeightlifting minutes for last two friends:")
+print([row[2] for row in workout_list[1:]])'''),
+    
+    nbf.v4.new_code_cell('''# Check for friends with total workout minutes >= 120
+for friend in ["Alex", "Jamie", "Taylor"]:
+    total_minutes = workout_stats[f"{friend}_Total"]
+    if total_minutes >= 120:
+        print(f"Great job staying active, {friend}!")'''),
+    
+    nbf.v4.new_code_cell('''# User input and friend lookup
+friend_name = input("Enter a friend's name to look up their workout stats: ")
+if friend_name in workout_stats:
+    print(f"\nWorkout stats for {friend_name}:")
+    yoga, running, weightlifting = workout_stats[friend_name]
+    total = workout_stats[f"{friend_name}_Total"]
+    print(f"Yoga: {yoga} minutes")
+    print(f"Running: {running} minutes")
+    print(f"Weightlifting: {weightlifting} minutes")
+    print(f"Total: {total} minutes")
+else:
+    print(f"\nFriend {friend_name} not found in the records.")'''),
+    
+    nbf.v4.new_code_cell('''# Find friends with highest and lowest total workout minutes
+friends = ["Alex", "Jamie", "Taylor"]
+totals = [workout_stats[f"{friend}_Total"] for friend in friends]
+max_friend = friends[totals.index(max(totals))]
+min_friend = friends[totals.index(min(totals))]
+
+print(f"Friend with highest total workout minutes: {max_friend} ({max(totals)} minutes)")
+print(f"Friend with lowest total workout minutes: {min_friend} ({min(totals)} minutes)")''')
+]
+
+nb['cells'] = cells
+
+# Write the notebook to a file
+with open('assignment1_studentID.ipynb', 'w', encoding='utf-8') as f:
+    nbf.write(nb, f)
